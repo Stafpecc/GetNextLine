@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  libft-test:
+    runs-on: ubuntu-latest                
+    defaults:
+      run:
+        working-directory: .ft_GetNextLineTester
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get install -y gcc valgrind 
+
+      - name: Run tests
+        run: 

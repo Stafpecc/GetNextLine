@@ -3,36 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stafpec <stafpec@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tarini <tarini@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:54:29 by stafpec           #+#    #+#             */
-/*   Updated: 2024/12/16 14:21:27 by stafpec          ###   ########.fr       */
+/*   Updated: 2025/01/06 13:33:54 by tarini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void update_and_clean_content(t_list **container)
+void	update_and_clean_content(t_list **container)
 {
-    t_list *tmp;
-    char *newline_pos;
-    char *new_content;
+	t_list	*tmp;
+	char	*newline_pos;
+	char	*new_content;
 
-    while (*container)
-    {
-        newline_pos = ft_strchr((*container)->content, '\n');
-        if (newline_pos)
-        {
-            new_content = ft_strdup(newline_pos + 1);
-            free((*container)->content);
-            (*container)->content = new_content;
-            return;
-        }
-        tmp = *container;
-        *container = (*container)->next;
-        free(tmp->content);
-        free(tmp);
-    }
+	while (*container)
+	{
+		newline_pos = ft_strchr((*container)->content, '\n');
+		if (newline_pos)
+		{
+			new_content = ft_strdup(newline_pos + 1);
+			free((*container)->content);
+			(*container)->content = new_content;
+			return ;
+		}
+		tmp = *container;
+		*container = (*container)->next;
+		free(tmp->content);
+		free(tmp);
+	}
 }
 
 char	*ft_strdup(const char *s)
@@ -41,9 +41,12 @@ char	*ft_strdup(const char *s)
 	char	*dest;
 
 	i = 0;
-	dest = malloc(sizeof(char) * (ft_strlen(s) + 1));
+	while (!s)
+		i++;
+	dest = malloc(sizeof(char) * (i + 1));
 	if (dest == NULL)
 		return (NULL);
+	i = 0;
 	while (s[i++])
 		dest[i] = s[i];
 	dest[i] = '\0';

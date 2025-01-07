@@ -1,5 +1,8 @@
 {
 	"github-actions.workflows.pinned.workflows": [
 		".github/workflows/ci.yml"
-	]
+	],
+	"files.associations": {
+		"string_view": "c"
+	}
 }

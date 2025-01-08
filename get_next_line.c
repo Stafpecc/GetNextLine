@@ -6,7 +6,7 @@
 /*   By: tarini <tarini@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 14:23:29 by tarini            #+#    #+#             */
-/*   Updated: 2025/01/07 17:38:00 by tarini           ###   ########.fr       */
+/*   Updated: 2025/01/08 21:29:42 by tarini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 // static void print_lst(t_list *lst)
 // {
 // 	printf("==========\n");
-// 	if (lst == NULL)
+// 	if (lst == NULL || lst->content[0] == '\0')
 // 		printf("ur fucked up\n");
 // 	while (lst != NULL)
 // 	{
-// 		printf("%s\n",(char *)lst->content);
+// 		printf("%s",(char *)lst->content);
 // 		lst = lst->next;
 // 	}
 // 	printf("==========\n");
@@ -44,11 +44,7 @@ static int	read_and_store(t_list **container, int fd)
 		buffer[reading] = '\0';
 		new_node = ft_lstnew(ft_strdup(buffer));
 		if (!new_node)
-		{
-			free(buffer);
-			update_and_clean_content(container);
-			return (-1);
-		}
+			return (free(buffer), -1);
 		ft_lstadd_back(container, new_node);
 		if (ft_strchr(buffer, '\n'))
 			break ;
@@ -97,7 +93,7 @@ static void	copy_to_line(t_list *container, char *line)
 		if (*content == '\n')
 		{
 			line[i++] = *content;
-			break ;
+			return ;
 		}
 		container = container->next;
 	}

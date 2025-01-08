@@ -3,6 +3,8 @@
 		".github/workflows/ci.yml"
 	],
 	"files.associations": {
-		"string_view": "c"
+		"string_view": "c",
+		"fcntl.h": "c",
+		"stdio.h": "c"
 	}
 }

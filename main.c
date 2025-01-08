@@ -6,16 +6,14 @@
 /*   By: tarini <tarini@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 13:22:16 by tarini            #+#    #+#             */
-/*   Updated: 2025/01/07 15:58:00 by tarini           ###   ########.fr       */
+/*   Updated: 2025/01/08 21:29:12 by tarini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
 #include "get_next_line.h"
-#include <fcntl.h>
 #include <stdio.h>
 
-int main(void)
+int	main(void)
 {
 	int		fd;
 	char	*line;
@@ -31,4 +29,3 @@ int main(void)
 	}
 	return (0);
 }
-*/

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tarini <tarini@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 14:23:29 by tarini            #+#    #+#             */
-/*   Updated: 2025/01/10 17:55:11 by tarini           ###   ########.fr       */
+/*   Updated: 2025/01/10 17:55:22 by tarini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static int	read_and_store(t_list **container, int fd)
 /* reads file and stores data in linked list */
@@ -104,18 +104,26 @@ static char	*extract_line(t_list **container)
 	return (line);
 }
 
-char	*get_next_line(int fd)
+char *get_next_line(int fd)
 /* returns extracted line */
 {
-	static t_list	*container;
+	static t_list	*fd_data[OPEN_MAX];
 	char			*line;
+	int				i;
 
-	if (BUFFER_SIZE < 1 || fd < 0)
+	if (fd < 0 || fd >= OPEN_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (read_and_store(&container, fd) < 0)
-		return (ft_lstclear_all(&container), NULL);
-	line = extract_line(&container);
-	if (!line)
-		update_and_clean_content(&container);
+	i = -1;
+	while (i < OPEN_MAX)
+	{
+		if (fd_data[++i])
+			ft_lstclear_all(&fd_data[i]);
+	}
+	if (read_and_store(&fd_data[fd], fd) < 0)
+		return (NULL);
+
+	line = extract_line(&fd_data[fd]);
+	update_and_clean_content(&fd_data[fd]);
+
 	return (line);
 }

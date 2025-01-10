@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tarini <tarini@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 13:09:15 by tarini            #+#    #+#             */
-/*   Updated: 2025/01/10 17:54:43 by tarini           ###   ########.fr       */
+/*   Updated: 2025/01/10 17:54:50 by tarini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+
+# ifndef OPEN_MAX
+#  define OPEN_MAX 65534
+# endif
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 6

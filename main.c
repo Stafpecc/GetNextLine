@@ -6,7 +6,7 @@
 /*   By: tarini <tarini@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 13:22:16 by tarini            #+#    #+#             */
-/*   Updated: 2025/01/08 21:29:12 by tarini           ###   ########.fr       */
+/*   Updated: 2025/01/10 17:26:18 by tarini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,15 @@ int	main(void)
 	int		fd;
 	char	*line;
 
-	fd = open("41_no_nl", O_RDONLY);
+	fd = open("test", O_RDONLY);
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		printf("%s", line);
+		printf("[%s]", line);
 		free(line);
 	}
+	printf("[%s]", line);
 	return (0);
 }

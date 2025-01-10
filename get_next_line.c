@@ -6,7 +6,7 @@
 /*   By: tarini <tarini@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 14:23:29 by tarini            #+#    #+#             */
-/*   Updated: 2025/01/08 21:29:42 by tarini           ###   ########.fr       */
+/*   Updated: 2025/01/10 17:34:41 by tarini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,16 @@ static int	read_and_store(t_list **container, int fd)
 	{
 		reading = read(fd, buffer, BUFFER_SIZE);
 		if (reading <= 0)
-			break ;
+			return (free(buffer), reading);
 		buffer[reading] = '\0';
-		new_node = ft_lstnew(ft_strdup(buffer));
+		new_node = ft_lstnew(ft_strdup_or_strchr(buffer, 0, 1));
 		if (!new_node)
-			return (free(buffer), -1);
+			return (ft_lstclear_all(container), free(buffer), -1);
 		ft_lstadd_back(container, new_node);
-		if (ft_strchr(buffer, '\n'))
+		if (ft_strdup_or_strchr(buffer, '\n', 0))
 			break ;
 	}
-	free(buffer);
-	return (reading);
+	return (free(buffer), reading);
 }
 
 static size_t	compute_line_length(t_list *container)
@@ -108,6 +107,8 @@ static char	*extract_line(t_list **container)
 	if (!*container)
 		return (NULL);
 	line_len = compute_line_length(*container);
+	if (line_len == 0)
+		return (NULL);
 	line = malloc(sizeof(char) * (line_len + 1));
 	if (!line)
 		return (NULL);
@@ -126,7 +127,7 @@ char	*get_next_line(int fd)
 	if (BUFFER_SIZE < 1 || fd < 0)
 		return (NULL);
 	if (read_and_store(&container, fd) < 0)
-		return (NULL);
+		return (ft_lstclear_all(&container), NULL);
 	line = extract_line(&container);
 	if (!line)
 		update_and_clean_content(&container);

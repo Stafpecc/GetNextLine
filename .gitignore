@@ -6,3 +6,9 @@
 # Temporary files from the editor
 *.swp
 .vscode/
+
+# Files not to push for 42
+test
+main.c
+.github
+.ft_GetNextLineTester

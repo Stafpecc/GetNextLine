@@ -6,18 +6,18 @@
 /*   By: tarini <tarini@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 14:23:29 by tarini            #+#    #+#             */
-/*   Updated: 2025/01/10 17:55:11 by tarini           ###   ########.fr       */
+/*   Updated: 2025/01/11 16:01:46 by tarini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 static int	read_and_store(t_list **container, int fd)
-/* reads file and stores data in linked list */
 {
 	char		*buffer;
 	int			reading;
 	t_list		*new_node;
+	char		*dup_content;
 
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
@@ -28,7 +28,10 @@ static int	read_and_store(t_list **container, int fd)
 		if (reading <= 0)
 			return (free(buffer), reading);
 		buffer[reading] = '\0';
-		new_node = ft_lstnew(ft_strdup_or_strchr(buffer, 0, 1));
+		dup_content = ft_strdup_or_strchr(buffer, 0, 1);
+		if (!dup_content)
+			return (ft_lstclear_all(container), free(buffer), -1);
+		new_node = ft_lstnew(dup_content);
 		if (!new_node)
 			return (ft_lstclear_all(container), free(buffer), -1);
 		ft_lstadd_back(container, new_node);
@@ -39,7 +42,6 @@ static int	read_and_store(t_list **container, int fd)
 }
 
 static size_t	compute_line_length(t_list *container)
-/* calculates length of the next line */
 {
 	size_t	length;
 	char	*content;
@@ -64,7 +66,6 @@ static size_t	compute_line_length(t_list *container)
 }
 
 static void	copy_to_line(t_list *container, char *line)
-/* copy to line XD */
 {
 	size_t	i;
 	char	*content;
@@ -85,7 +86,6 @@ static void	copy_to_line(t_list *container, char *line)
 }
 
 static char	*extract_line(t_list **container)
-/* extracts the line from the list */
 {
 	size_t	line_len;
 	char	*line;
@@ -97,7 +97,7 @@ static char	*extract_line(t_list **container)
 		return (NULL);
 	line = malloc(sizeof(char) * (line_len + 1));
 	if (!line)
-		return (NULL);
+		return (ft_lstclear_all(container), NULL);
 	copy_to_line(*container, line);
 	line[line_len] = '\0';
 	update_and_clean_content(container);
@@ -105,7 +105,6 @@ static char	*extract_line(t_list **container)
 }
 
 char	*get_next_line(int fd)
-/* returns extracted line */
 {
 	static t_list	*container;
 	char			*line;
@@ -116,6 +115,6 @@ char	*get_next_line(int fd)
 		return (ft_lstclear_all(&container), NULL);
 	line = extract_line(&container);
 	if (!line)
-		update_and_clean_content(&container);
+		return (update_and_clean_content(&container), NULL);
 	return (line);
 }

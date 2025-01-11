@@ -6,14 +6,13 @@
 /*   By: tarini <tarini@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:54:29 by stafpec           #+#    #+#             */
-/*   Updated: 2025/01/10 17:36:55 by tarini           ###   ########.fr       */
+/*   Updated: 2025/01/11 15:57:36 by tarini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 void	update_and_clean_content(t_list **container)
-/* clean list after the extract */
 {
 	t_list	*tmp;
 	char	*newline;
@@ -25,6 +24,11 @@ void	update_and_clean_content(t_list **container)
 		if (newline)
 		{
 			new_content = ft_strdup_or_strchr(newline + 1, 0, 1);
+			if (!new_content)
+			{
+				ft_lstclear_all(container);
+				return ;
+			}
 			free((*container)->content);
 			(*container)->content = new_content;
 			return ;
@@ -47,7 +51,7 @@ char	*ft_strdup_or_strchr(const char *s, int c, int flag)
 		while (s[++i])
 			;
 		dest = malloc(sizeof(char) * (i + 1));
-		if (dest == NULL)
+		if (!dest)
 			return (NULL);
 		i = -1;
 		while (s[++i])
@@ -66,7 +70,6 @@ char	*ft_strdup_or_strchr(const char *s, int c, int flag)
 }
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
-/* allocates (with malloc(3)) and returns a new element */
 {
 	t_list	*current;
 
@@ -82,13 +85,15 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 }
 
 t_list	*ft_lstnew(void *content)
-/* add element ’new’ at the end of list */
 {
 	t_list	*my_new_list;
 
 	my_new_list = malloc(sizeof(t_list));
-	if (my_new_list == NULL)
+	if (!my_new_list)
+	{
+		free(content);
 		return (NULL);
+	}
 	my_new_list->content = content;
 	my_new_list->next = NULL;
 	return (my_new_list);

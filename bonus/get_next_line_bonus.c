@@ -6,7 +6,7 @@
 /*   By: tarini <tarini@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 14:23:29 by tarini            #+#    #+#             */
-/*   Updated: 2025/01/10 17:55:22 by tarini           ###   ########.fr       */
+/*   Updated: 2025/01/11 15:04:04 by tarini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static char	*extract_line(t_list **container)
 	return (line);
 }
 
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 /* returns extracted line */
 {
 	static t_list	*fd_data[OPEN_MAX];
@@ -121,9 +121,7 @@ char *get_next_line(int fd)
 	}
 	if (read_and_store(&fd_data[fd], fd) < 0)
 		return (NULL);
-
 	line = extract_line(&fd_data[fd]);
 	update_and_clean_content(&fd_data[fd]);
-
 	return (line);
 }
